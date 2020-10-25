@@ -1,23 +1,11 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Stack;
 
 public class Expression
 {
-    String Str;
-
-    Expression(String Str)
-    {
-        this.Str = '(' + Str + ')';
-    }
-
-    Expression()
-    {
-        Str = null;
-    }
-
-
 
     static double Calculate(String expr) throws Exception
     {
@@ -27,20 +15,18 @@ public class Expression
         char Token = ' ';
         char PrevToken = ' ';
 
-        char[] expression1 =  expr.toCharArray();
-        ArrayList<Character> expression2 = new ArrayList<>();
+        ArrayList<Character> expression = new ArrayList<>();
 
-        for(int i = 0; i < expression1.length; i++)
-        {
-            expression2.set(i, expression1[i]);
+        for (int i = 0; i < expr.length(); i++) {
+            expression.add(expr.charAt(i));
         }
 
-        expression2.add(0, '(');
-        expression2.add(expression2.size() - 1, ')');
+        expression.add(0, '(');
+        expression.add(expression.size() - 1, ')');
 
         do
         {
-            Token = expression2.get(pos);
+            Token = expression.get(pos);
 
             if (PrevToken =='(' && Token == '-') {
                 Operands.push(0.0);
@@ -70,7 +56,7 @@ public class Expression
             PrevToken = Token;
             pos++;
 
-        } while (pos + 1 <= expression2.size());
+        } while (pos + 1 <= expression.size());
 
         if (Operands.size() > 1 || Functions.size() > 0)
             throw new Exception("Ошибка в разборе выражения");
