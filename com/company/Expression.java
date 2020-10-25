@@ -27,13 +27,20 @@ public class Expression
         char Token = ' ';
         char PrevToken = ' ';
 
-        char[] expression =  expr.toCharArray(); //ПОСТАВИТЬ СКОБКИ В НАЧАЛЕ И КОНЦЕ
-        //ArrayList<Character> expression = expr.toCharArray;
+        char[] expression1 =  expr.toCharArray();
+        ArrayList<Character> expression2 = new ArrayList<>();
 
+        for(int i = 0; i < expression1.length; i++)
+        {
+            expression2.set(i, expression1[i]);
+        }
+
+        expression2.add(0, '(');
+        expression2.add(expression2.size() - 1, ')');
 
         do
         {
-            Token = expression[pos];
+            Token = expression2.get(pos);
 
             if (PrevToken =='(' && Token == '-') {
                 Operands.push(0.0);
@@ -63,7 +70,7 @@ public class Expression
             PrevToken = Token;
             pos++;
 
-        } while (pos + 1 <= expression.length);
+        } while (pos + 1 <= expression2.size());
 
         if (Operands.size() > 1 || Functions.size() > 0)
             throw new Exception("Ошибка в разборе выражения");
