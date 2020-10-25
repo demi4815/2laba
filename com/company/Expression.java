@@ -2,7 +2,6 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Stack;
 
 public class Expression
@@ -29,9 +28,6 @@ public class Expression
         expression.add(0, '(');
         expression.add(expression.size(), ')');
 
-        //pos = 1;
-        //PrevToken =  expression.get(0);
-
         do
         {
             Token = expression.get(pos);
@@ -43,7 +39,8 @@ public class Expression
 
             if (Character.isDigit(Token))
             {
-                Operands.push((double)Token);
+                int t = Character.getNumericValue(Token);
+                Operands.push((double)t);
             }
 
             if (simpleFunctions.contains(Token) || Token == '(' || Token == ')' )
@@ -66,45 +63,26 @@ public class Expression
 
         } while (pos + 1 <= expression.size());
 
-        System.out.println(Operands.size());
-        System.out.println(Functions.size());
-
-        /*double B = Operands.pop();
-        double A = Operands.pop();
-        switch (Functions.pop()) {
-            case '+' -> Operands.push(A + B);
-            case '-' -> Operands.push(A - B);
-            case '*' -> Operands.push(A * B);
-            case '/' -> Operands.push(A / B);
-        }*/
-
-        /*System.out.println(Operands.pop());
-        System.out.println(Operands.pop());
-        System.out.println(Functions.pop());*/
-
-
         if (Operands.size() > 1 || Functions.size() > 0)
             throw new Exception("Ошибка в разборе выражения");
 
         return Operands.pop();
-
-
     }
 
 
     static void PopFunction(Stack<Double> Operands, Stack<Character> Functions)
     {
-        double B = Operands.pop();
-        double A = Operands.pop();
+        double B = (double)Operands.pop();
+        double A = (double)Operands.pop();
         switch (Functions.pop())
         {
-            case '+': Operands.push(A + B);
+            case '+': Operands.push( A + B);
                 break;
-            case '-': Operands.push(A - B);
+            case '-': Operands.push( A - B);
                 break;
-            case '*': Operands.push(A * B);
+            case '*': Operands.push( A * B);
                 break;
-            case '/': Operands.push(A / B);
+            case '/': Operands.push( A / B);
                 break;
         }
     }
