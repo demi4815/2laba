@@ -1,11 +1,16 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Stack;
 
 public class Expression
 {
+
+    static ArrayList<Character> simpleFunctions = new ArrayList<>(
+            Arrays.asList( '/', '*', '+', '-')
+    );
 
     static double Calculate(String expr) throws Exception
     {
@@ -13,7 +18,7 @@ public class Expression
         Stack<Character> Functions = new Stack<>();
         int pos = 0;
         char Token = ' ';
-        char PrevToken = ' ';
+        char PrevToken = 'j';
 
         ArrayList<Character> expression = new ArrayList<>();
 
@@ -22,7 +27,10 @@ public class Expression
         }
 
         expression.add(0, '(');
-        expression.add(expression.size() - 1, ')');
+        expression.add(expression.size(), ')');
+
+        //pos = 1;
+        //PrevToken =  expression.get(0);
 
         do
         {
@@ -38,7 +46,7 @@ public class Expression
                 Operands.push((double)Token);
             }
 
-            else if (Character.isSpaceChar(Token))
+            if (simpleFunctions.contains(Token) || Token == '(' || Token == ')' )
             {
                 if ((char)Token == ')')
                 {
@@ -58,6 +66,23 @@ public class Expression
 
         } while (pos + 1 <= expression.size());
 
+        System.out.println(Operands.size());
+        System.out.println(Functions.size());
+
+        /*double B = Operands.pop();
+        double A = Operands.pop();
+        switch (Functions.pop()) {
+            case '+' -> Operands.push(A + B);
+            case '-' -> Operands.push(A - B);
+            case '*' -> Operands.push(A * B);
+            case '/' -> Operands.push(A / B);
+        }*/
+
+        /*System.out.println(Operands.pop());
+        System.out.println(Operands.pop());
+        System.out.println(Functions.pop());*/
+
+
         if (Operands.size() > 1 || Functions.size() > 0)
             throw new Exception("Ошибка в разборе выражения");
 
@@ -71,11 +96,16 @@ public class Expression
     {
         double B = Operands.pop();
         double A = Operands.pop();
-        switch (Functions.pop()) {
-            case '+' -> Operands.push(A + B);
-            case '-' -> Operands.push(A - B);
-            case '*' -> Operands.push(A * B);
-            case '/' -> Operands.push(A / B);
+        switch (Functions.pop())
+        {
+            case '+': Operands.push(A + B);
+                break;
+            case '-': Operands.push(A - B);
+                break;
+            case '*': Operands.push(A * B);
+                break;
+            case '/': Operands.push(A / B);
+                break;
         }
     }
 
